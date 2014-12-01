@@ -1,0 +1,21 @@
+{
+  "name": "bot.community",
+  "main": "bot.community.js",
+  "version": "1.0.0",
+  "homepage": "https://github.com/beaugunderson/bot.community",
+  "authors": [
+    "Beau Gunderson <beau@beaugunderson.com>"
+  ],
+  "license": "BSD",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "static/vendor",
+    "test"
+  ],
+  "dependencies": {
+    "typeahead.js": "~0.10.5",
+    "bootstrap": "~3.3.1"
+  }
+}
