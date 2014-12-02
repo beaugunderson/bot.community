@@ -1,20 +1,33 @@
-/*global $:true Bloodhound:true*/
+/*global $:true*/
 
 'use strict';
 
 $(function () {
-  var bots = new Bloodhound({
-    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
-    queryTokenizer: Bloodhound.tokenizers.whitespace,
-    // prefetch: '../data/films/post_1960.json',
-    remote: '/bots/search/%QUERY'
+  $('#bot-search').select2({
+    placeholder: 'Find a bot',
+    minimumInputLength: 1,
+    id: function (result) {
+      return result.value;
+    },
+    ajax: {
+      url: function (query) {
+        return '/autocomplete/' + query + '/';
+      },
+      dataType: 'json',
+      results: function (data) {
+        return {results: data.splice(0, 15)};
+      },
+      cache: true
+    },
+    formatResult: function (result) {
+      return result.value;
+    },
+    formatSelection: function (result) {
+      return result.value;
+    }
   });
 
-  bots.initialize();
-
-  $('#bot-search .typeahead').typeahead(null, {
-    name: 'bots',
-    displayKey: 'value',
-    source: bots.ttAdapter()
+  $('#bot-search').on('change', function (e) {
+    location.href = '/bots/' + e.val + '/';
   });
 });

@@ -15,7 +15,9 @@
     "test"
   ],
   "dependencies": {
-    "typeahead.js": "~0.10.5",
-    "bootstrap": "~3.3.1"
+    "jquery": "~2.1.1",
+    "bootstrap": "~3.3.1",
+    "select2": "~3.5.2",
+    "select2-bootstrap-css": "~1.4.3"
   }
 }

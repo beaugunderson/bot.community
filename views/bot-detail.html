@@ -1,0 +1,58 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+<!-- <script src="/js/bot-detail.js"></script> -->
+{% endblock %}
+
+{% block content %}
+<div class="clearfix">
+  <img alt="avatar for {{ bot.twitter.screenName }}"
+    class="avatar img-thumbnail pull-right"
+    src="{{ bot.twitter.avatar|avatar('original') }}">
+
+  <div class="page-header">
+    <h1>
+      <a title="{{ bot.twitter.id }}"
+        href="/bots/{{ bot.twitter.screenName }}/">
+        @{{ bot.twitter.screenName }}</a>
+
+      <small>{{ bot.twitter.name }}</small>
+    </h1>
+  </div>
+
+  {% if bot.twitter.description %}
+    <blockquote>
+      {{ bot.twitter.description }}
+    </blockquote>
+  {% endif %}
+
+  <div class="row">
+    <div class="col-md-4">
+      <dl class="dl-horizontal">
+        <dt>Created</dt>
+        <dd>{{ bot.twitter.createdAt|date('m-d-Y') }}</dd>
+
+        {% if bot.twitter.location %}
+          <dt>Location</dt>
+          <dd>{{ bot.twitter.location }}</dd>
+        {% endif %}
+      </dl>
+
+      <dl class="dl-horizontal">
+        <dt>Statuses</dt>
+        <dd>{{ bot.twitter.statuses|commas }}</dd>
+
+        <dt>Followers</dt>
+        <dd>{{ bot.twitter.followers|commas }}</dd>
+
+        <dt>Listed</dt>
+        <dd>{{ bot.twitter.listed|commas }}</dd>
+      </dl>
+    </div>
+
+    <div class="col-md-6">
+      Tagging stuff here...
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{% block title %}bot.community{% endblock %}</title>
+
+    <script src="/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/vendor/select2/select2.min.js"></script>
+
+    <script src="/js/main.js"></script>
+
+    <link rel="stylesheet"
+      href="/vendor/select2/select2.css">
+    <link rel="stylesheet"
+      href="/vendor/select2-bootstrap-css/select2-bootstrap.css">
+    <link rel="stylesheet"
+      href="/vendor/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet"
+      href="/vendor/bootstrap/dist/css/bootstrap-theme.css">
+
+    <link rel="stylesheet"
+      href="/css/main.css">
+
+    {% block head %}{% endblock %}
+  </head>
+
+  <body>
+    <nav class="navbar navbar-default navbar-static-top" role="navigation">
+      <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed"
+            data-toggle="collapse"
+            data-target="#navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+
+          <a class="navbar-brand" href="/">bot.community</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="navbar-collapse">
+          <div class="navbar-right">
+            {% if !user %}
+              <a class="btn btn-primary navbar-btn" href="/auth/twitter">Log in
+                with Twitter</a>
+            {% else %}
+              <span class="navbar-text">
+                <strong>{{ user.profile.username }}</strong>
+              </span>
+
+              <a class="btn btn-default navbar-btn" href="/logout">Log out</a>
+            {% endif %}
+          </div>
+
+          {% if !home %}
+            <form class="navbar-form navbar-left" role="search">
+              <div class="input-group">
+                <input type="hidden" class="form-control"
+                  id="bot-search" placeholder="Find a bot">
+              </div>
+            </form>
+          {% endif %}
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      {% block content %}{% endblock %}
+    </div>
+  </body>
+</html>

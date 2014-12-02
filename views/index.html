@@ -1,40 +1,15 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <script src="/vendor/jquery/dist/jquery.min.js"></script>
-    <script src="/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script
-      src="/vendor/typeahead.js/dist/typeahead.bundle.min.js"></script>
+{% extends 'layout.html' %}
 
-    <script src="/js/main.js"></script>
+{% block content %}
+<div class="jumbotron">
+  <h1>Welcome to bot.community</h1>
 
-    <link rel="stylesheet"
-      href="/vendor/bootstrap/dist/css/bootstrap.css">
-    <link rel="stylesheet"
-      href="/vendor/bootstrap/dist/css/bootstrap-theme.css">
+  <p>Let's build a taxonomy of art bots together! Check out the
+    <a href="/guide/tagging/">tagging guide</a> or search for a bot to get
+    started.</p>
 
-    <link rel="stylesheet"
-      href="/css/main.css">
-  </head>
-
-  <body>
-    <div class="container">
-      {% if !user %}
-      <a href="/auth/twitter"><img alt="Log in with Twitter"
-        src="/images/sign-in-with-twitter-gray.png"></a>
-      {% endif %}
-
-      <div id="bot-search" class="text-center">
-        <input class="typeahead" type="text" placeholder="Find a bot">
-      </div>
-
-      <h1>user</h1>
-
-      <pre>{{ user|json(4) }}</pre>
-
-      <h1>session</h1>
-
-      <pre>{{ session|json(4) }}</pre>
-    </div>
-  </body>
-</html>
+  <div id="bot-search-wrapper" class="col-md-6 col-md-offset-3">
+    <input id="bot-search" class="form-control input-lg" type="hidden">
+  </div>
+</div>
+{% endblock %}
