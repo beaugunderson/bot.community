@@ -18,7 +18,7 @@ var botSchema = new mongoose.Schema({
     usernames: [String],
     hashtags: [String],
     location: String,
-    created: Date,
+    createdAt: Date,
     statuses: Number,
     listed: Number,
     followers: Number,
