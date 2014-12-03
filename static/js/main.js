@@ -11,7 +11,7 @@ $(function () {
     },
     ajax: {
       url: function (query) {
-        return '/autocomplete/' + query + '/';
+        return '/bots/autocomplete/' + query + '/';
       },
       dataType: 'json',
       results: function (data) {

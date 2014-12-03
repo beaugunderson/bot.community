@@ -1,11 +1,11 @@
 {% extends 'layout.html' %}
 
 {% block head %}
-<!-- <script src="/js/bot-detail.js"></script> -->
+<script src="/js/bot-detail.js"></script>
 {% endblock %}
 
 {% block content %}
-<div class="clearfix">
+<div class="bot-detail clearfix" data-bot="{{ bot.twitter.screenName }}">
   <img alt="avatar for {{ bot.twitter.screenName }}"
     class="avatar img-thumbnail pull-right"
     src="{{ bot.twitter.avatar|avatar('original') }}">
@@ -13,21 +13,26 @@
   <div class="page-header">
     <h1>
       <a title="{{ bot.twitter.id }}"
-        href="/bots/{{ bot.twitter.screenName }}/">
+        href="https://twitter.com/{{ bot.twitter.screenName }}">
         @{{ bot.twitter.screenName }}</a>
 
       <small>{{ bot.twitter.name }}</small>
     </h1>
   </div>
 
+  {% if bot.twitter.mainUrl %}
+  <p><small><a
+    href="{{ bot.twitter.mainUrl }}">{{ bot.twitter.mainUrl }}</a></small></p>
+  {% endif %}
+
   {% if bot.twitter.description %}
     <blockquote>
-      {{ bot.twitter.description }}
+      {{ bot.twitter.description|autolink }}
     </blockquote>
   {% endif %}
 
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-3 narrow-dl">
       <dl class="dl-horizontal">
         <dt>Created</dt>
         <dd>{{ bot.twitter.createdAt|date('m-d-Y') }}</dd>
@@ -50,8 +55,18 @@
       </dl>
     </div>
 
-    <div class="col-md-6">
-      Tagging stuff here...
+    <div class="col-md-9">
+      <dl class="tags dl-horizontal">
+        {% for tag in bot.tags %}
+        <form data-id="{{ tag.id }}">
+          <dt class="tag">{{ tag.key }}</dt>
+          <dd class="tag">{{ tag.value }}</dd>
+        </form>
+        {% endfor %}
+
+        <dt><a class="add-tag" href="#">add a tag</a></dt>
+        <dd></dd>
+      </dl>
     </div>
   </div>
 </div>

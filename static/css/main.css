@@ -3,11 +3,16 @@ img.avatar {
   max-height: 150px;
 }
 
-.dl-horizontal dt {
+.tags dt:hover,
+.tags dd:hover {
+  text-decoration: underline;
+}
+
+.narrow-dl .dl-horizontal dt {
   width: 80px;
 }
 
-.dl-horizontal dd {
+.narrow-dl .dl-horizontal dd {
   margin-left: 100px;
 }
 

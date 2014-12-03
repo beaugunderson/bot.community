@@ -12,4 +12,42 @@
     <input id="bot-search" class="form-control input-lg" type="hidden">
   </div>
 </div>
+
+<div class="row">
+  <div class="col-md-4">
+    <h2>Taking their first steps</h2>
+
+    <dl class="dl-horizontal">
+      {% for bot in aggregates.newest %}
+      <dt><a href="/bots/{{ bot.twitter.screenName }}/">
+          {{ bot.twitter.screenName }}</a></dt>
+      <dd>{{ bot.twitter.createdAt|date('m-d-Y') }}</dd>
+      {% endfor %}
+    </dl>
+  </div>
+
+  <div class="col-md-4">
+    <h2>Need more pals</h2>
+
+    <dl class="dl-horizontal">
+      {% for bot in aggregates.least %}
+      <dt><a href="/bots/{{ bot.twitter.screenName }}/">
+          {{ bot.twitter.screenName }}</a></dt>
+      <dd>{{ bot.twitter.followers|commas }}</dd>
+      {% endfor %}
+    </dl>
+  </div>
+
+  <div class="col-md-4">
+    <h2>That is a lot of pals</h2>
+
+    <dl class="dl-horizontal">
+      {% for bot in aggregates.most %}
+      <dt><a href="/bots/{{ bot.twitter.screenName }}/">
+          {{ bot.twitter.screenName }}</a></dt>
+      <dd>{{ bot.twitter.followers|commas }}</dd>
+      {% endfor %}
+    </dl>
+  </div>
+</div>
 {% endblock %}

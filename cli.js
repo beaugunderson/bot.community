@@ -4,9 +4,10 @@
 
 require('dotenv').load();
 
+var db = require('./lib/db.js');
+
 var async = require('async');
 var Bot = require('./models/bot.js');
-var db = require('./lib/db.js');
 var program = require('commander');
 var twitterBotLists = require('twitter-bot-lists');
 
@@ -14,15 +15,17 @@ program
   .command('load-bot-lists')
   .description('Load/update Twitter bots from bot lists')
   .action(function () {
-    twitterBotLists(function (err, bots) {
-      if (err) {
-        throw err;
-      }
+    db(function () {
+      twitterBotLists(function (err, bots) {
+        if (err) {
+          throw err;
+        }
 
-      console.log('Updating %d bots', bots.length);
+        console.log('Updating %d bots', bots.length);
 
-      db(function () {
         async.each(bots, function (bot, cbEach) {
+          console.log(bot.screenName);
+
           bot.refreshed = new Date();
 
           Bot.findOneAndUpdate(
