@@ -127,6 +127,10 @@ app.get('/', trackReturnTo, function (req, res) {
   });
 });
 
+app.get('/guide/tagging', function (req, res) {
+  res.send('Coming soon...');
+});
+
 app.get('/tags/autocomplete/:term/', function (req, res) {
   res.send([]);
 });
