@@ -6,7 +6,7 @@
 
   "rules": {
     "brace-style": [2, "1tbs"],
-    "camelcase": 2,
+    "camelcase": 1,
     "consistent-this": [1, "self"],
     "default-case": 2,
     "func-style": [2, "declaration"],
@@ -22,6 +22,7 @@
     "no-process-exit": 0,
     "no-self-compare": 2,
     "no-spaced-func": 2,
+    "no-underscore-dangle": 1,
     "no-unused-vars": [2, {"vars": "all", "args": "after-used"}],
     "quotes": [1, "single", "avoid-escape"],
     "radix": 2,
