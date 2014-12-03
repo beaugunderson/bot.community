@@ -196,6 +196,17 @@ app.post('/bots/:screenName/tags/:tagId/', ensureTwitterLoggedIn, botOr404,
   });
 });
 
+app.post('/bots/:screenName/report/', ensureTwitterLoggedIn, botOr404,
+    function (req, res) {
+  req.bot.report(function (err) {
+    if (err) {
+      return res.sendStatus(500);
+    }
+
+    res.sendStatus(200);
+  });
+});
+
 app.get('/auth/twitter', passport.authenticate('twitter'));
 
 app.get('/auth/twitter/callback', passport.authenticate('twitter', {

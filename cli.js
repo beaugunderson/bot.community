@@ -46,4 +46,22 @@ program
     });
   });
 
+program
+  .command('reset-reports')
+  .description('Load/update Twitter bots from bot lists')
+  .action(function () {
+    db(function () {
+      Bot.find({}, function (err, bots) {
+        async.each(bots, function (bot, cbEach) {
+          console.log(bot.twitter.screenName);
+
+          bot.reports = 0;
+          bot.save(cbEach);
+        }, function (err) {
+          console.log('Done');
+        });
+      });
+    });
+  });
+
 program.parse(process.argv);

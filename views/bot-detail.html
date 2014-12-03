@@ -20,15 +20,15 @@
     </h1>
   </div>
 
-  {% if bot.twitter.mainUrl %}
-  <p><small><a
-    href="{{ bot.twitter.mainUrl }}">{{ bot.twitter.mainUrl }}</a></small></p>
-  {% endif %}
-
   {% if bot.twitter.description %}
     <blockquote>
       {{ bot.twitter.description|autolink }}
     </blockquote>
+  {% endif %}
+
+  {% if bot.twitter.mainUrl %}
+  <p><strong>More information:</strong> <a
+    href="{{ bot.twitter.mainUrl }}">{{ bot.twitter.mainUrl }}</a></p>
   {% endif %}
 
   <div class="row">
@@ -69,5 +69,9 @@
       </dl>
     </div>
   </div>
+
+  <p><small class="report"><a
+    href="/bots/{{ bot.twitter.screenName }}/report/">Not an art
+    bot?</a></small></p>
 </div>
 {% endblock %}

@@ -27,6 +27,7 @@ var botSchema = new mongoose.Schema({
     refreshed: Date
   },
   tags: [tagSchema],
+  reports: {type: Number, default: 0},
   updated: {type: Date, default: Date.now}
 });
 
@@ -34,6 +35,10 @@ botSchema.methods.updateTwitter = function (cb) {
   // TODO: update the twitter data using the Twitter API
 
   cb();
+};
+
+botSchema.methods.report = function (cb) {
+  this.update({$inc: {reports: 1}}, {}, cb);
 };
 
 botSchema.methods.createTag = function (user, key, value, cb) {
@@ -114,6 +119,7 @@ botSchema.methods.deleteTag = function (user, id, cb) {
 
 botSchema.statics.newest = function (cb) {
   this.find()
+    .where('reports').lt(1)
     .limit(25)
     .sort('-twitter.createdAt')
     .select('twitter.screenName twitter.createdAt')
@@ -122,6 +128,7 @@ botSchema.statics.newest = function (cb) {
 
 botSchema.statics.mostFollowers = function (cb) {
   this.find()
+    .where('reports').lt(1)
     .limit(25)
     .sort('-twitter.followers twitter.screenName')
     .select('twitter.screenName twitter.followers')
@@ -130,6 +137,7 @@ botSchema.statics.mostFollowers = function (cb) {
 
 botSchema.statics.leastFollowers = function (cb) {
   this.find()
+    .where('reports').lt(1)
     .limit(25)
     .sort('twitter.followers twitter.screenName')
     .select('twitter.screenName twitter.followers')

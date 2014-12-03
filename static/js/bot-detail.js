@@ -28,6 +28,14 @@ function buildForm(key, value) {
 $(function () {
   var thisBot = $('.bot-detail').data('bot');
 
+  $('.report a').click(function (event) {
+    event.preventDefault();
+
+    $.post($(this).attr('href'), {}, function () {
+      $('.report').text('Thanks for reporting!');
+    });
+  });
+
   $('.add-tag').click(function () {
     var $form = $('<form/>').append(buildForm());
 
