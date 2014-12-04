@@ -1,0 +1,43 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+<script src="/js/user-detail.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="user-detail clearfix" data-user="{{ user.profile.username }}">
+  <!-- <img alt="avatar for {{ bot.twitter.screenName }}" -->
+  <!--   class="avatar img-thumbnail pull-right" -->
+  <!--   src="{{ bot.twitter.avatar|avatar('original') }}"> -->
+
+  <div class="page-header">
+    <h1>
+      <a title="{{ user.profile.id }}"
+        href="https://twitter.com/{{ user.profile.username }}">
+        @{{ user.profile.username }}</a>
+
+      <small>{{ user.profile.name }}</small>
+    </h1>
+  </div>
+
+  {% if user.profile._json.description %}
+    <blockquote>
+      {{ user.profile._json.description|autolink }}
+    </blockquote>
+  {% endif %}
+
+  {% for revision in tagRevisions %}
+  <p>
+    {{ revision.created|date('m-d-Y') }}
+
+    <strong>{{ revision.action }}</strong>
+
+    <a href="/bots/{{ revision.botScreenName }}/">
+      {{ revision.botScreenName }}</a>
+
+    [{{ revision.oldTag.key }}, {{ revision.oldTag.value }}]
+
+    [{{ revision.newTag.key }}, {{ revision.newTag.value }}]
+  </p>
+  {% endfor %}
+{% endblock %}
