@@ -4,7 +4,6 @@ var addCommas = require('add-commas');
 var Autolinker = require('autolinker');
 var bodyParser = require('body-parser');
 var db = require('./lib/db.js');
-var Bot = require('./models/bot.js');
 var cookieParser = require('cookie-parser');
 var ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn;
 var express = require('express');
@@ -13,7 +12,10 @@ var passport = require('./lib/passport.js');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 var swig = require('swig');
-// var _ = require('lodash');
+
+var Bot = require('./models/bot.js');
+var User = require('./models/user.js');
+var TagRevision = require('./models/tag-revision.js');
 
 var DEBUG = process.env.DEBUG;
 var PORT = process.env.PORT;
@@ -28,15 +30,32 @@ function trackReturnTo(req, res, next) {
 
 function botOr404(req, res, next) {
   Bot.findOne({'twitter.screenName': req.params.screenName},
-    function (err, result) {
-      if (err || !result) {
+    function (err, bot) {
+      if (err || !bot) {
         return res.sendStatus(404);
       }
 
-      req.bot = result;
+      req.bot = bot;
 
       next();
     });
+}
+
+function userOr404(req, res, next) {
+  User.findOne({'profile.username': req.params.screenName},
+      function (err, user) {
+    if (err || !user) {
+      return res.sendStatus(404);
+    }
+
+    TagRevision.find({userId: user.profile.id},
+        function (ignoredError, tagRevisions) {
+      req.twitterUser = user;
+      req.tagRevisions = tagRevisions;
+
+      next();
+    });
+  });
 }
 
 var ensureTwitterLoggedIn = ensureLoggedIn({redirectTo: '/auth/twitter'});
@@ -92,7 +111,7 @@ app.use(passport.session());
 
 app.use(function (req, res, next) {
   res.locals.user = req.user;
-  res.locals.authenticated = !req.user;
+  res.locals.authenticated = req.user !== undefined;
   res.locals.session = req.session;
 
   next();
@@ -161,15 +180,15 @@ app.get('/aggregates/', function (req, res) {
   });
 });
 
-app.get('/bots/:screenName/', trackReturnTo, function (req, res) {
-  Bot.findOne({'twitter.screenName': req.params.screenName},
-    function (err, result) {
-      if (err || !result) {
-        return res.sendStatus(404);
-      }
+app.get('/users/:screenName/', trackReturnTo, userOr404, function (req, res) {
+  res.render('user-detail', {
+    user: req.twitterUser,
+    tagRevisions: req.tagRevisions
+  });
+});
 
-      res.render('bot-detail', {bot: result});
-    });
+app.get('/bots/:screenName/', trackReturnTo, botOr404, function (req, res) {
+  res.render('bot-detail', {bot: req.bot});
 });
 
 app.get('/bots/:screenName/tags/', botOr404, function (req, res) {
