@@ -1,31 +1,35 @@
-/*global $:true*/
+/*global $:true isAuthenticated:true*/
 
 'use strict';
 
 var ENTER_KEY = 13;
 
 function buildForm(key, value) {
-    var $key = $('<dt/>');
-    var $value = $('<dd/>');
+  var $key = $('<dt/>');
+  var $value = $('<dd/>');
 
-    var $keyInput = $('<input type="text" class="key" placeholder="key">');
-    var $valueInput = $('<input type="text" class="value" placeholder="value">');
+  var $keyInput = $('<input type="text" class="key" placeholder="key">');
+  var $valueInput = $('<input type="text" class="value" placeholder="value">');
 
-    if (key) {
-      $keyInput.val(key);
-    }
+  if (key) {
+    $keyInput.val(key);
+  }
 
-    if (value) {
-      $valueInput.val(value);
-    }
+  if (value) {
+    $valueInput.val(value);
+  }
 
-    $key.append($keyInput);
-    $value.append($valueInput);
+  $key.append($keyInput);
+  $value.append($valueInput);
 
-    return [$key, $value];
+  return [$key, $value];
 }
 
 $(function () {
+  if (!isAuthenticated) {
+    return;
+  }
+
   var thisBot = $('.bot-detail').data('bot');
 
   $('.report a').click(function (event) {
@@ -46,6 +50,7 @@ $(function () {
     var key = $(this).parents('form').find('dt').text();
     var value = $(this).parents('form').find('dd').text();
 
+    // TODO: set focus after adding inputs
     $(this).parents('form').html('').append(buildForm(key, value));
   });
 
