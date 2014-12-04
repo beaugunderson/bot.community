@@ -124,40 +124,42 @@ botSchema.methods.deleteTag = function (user, id, cb) {
   });
 };
 
-botSchema.statics.newest = function (cb) {
-  this.find()
+botSchema.statics.botsWithoutReports = function () {
+  return this.find()
     .where('reports').lt(1)
-    .limit(25)
+    .limit(25);
+};
+
+botSchema.statics.newest = function (cb) {
+  this.botsWithoutReports()
     .sort('-twitter.createdAt')
     .select('twitter.screenName twitter.createdAt')
     .exec(cb);
 };
 
 botSchema.statics.mostFollowers = function (cb) {
-  this.find()
-    .where('reports').lt(1)
-    .limit(25)
+  this.botsWithoutReports()
     .sort('-twitter.followers twitter.screenName')
     .select('twitter.screenName twitter.followers')
     .exec(cb);
 };
 
 botSchema.statics.leastFollowers = function (cb) {
-  this.find()
-    .where('reports').lt(1)
-    .limit(25)
+  this.botsWithoutReports()
     .sort('twitter.followers twitter.screenName')
     .select('twitter.screenName twitter.followers')
     .exec(cb);
 };
 
-botSchema.statics.countTags = function (cb) {
+botSchema.statics.tagCounts = function (cb) {
   this.aggregate()
     .unwind('tags')
     .group({
       _id: {key: '$tags.key'},
       count: {$sum: 1}
     })
+    .sort('-count')
+    .limit(10)
     .project({
       key: '$_id.key',
       count: '$count',

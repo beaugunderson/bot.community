@@ -1,6 +1,7 @@
 'use strict';
 
 var addCommas = require('add-commas');
+var async = require('async');
 var Autolinker = require('autolinker');
 var bodyParser = require('body-parser');
 var db = require('./lib/db.js');
@@ -118,26 +119,12 @@ app.use(function (req, res, next) {
 });
 
 function aggregates(cb) {
-  // TODO: async
-  Bot.mostFollowers(function (err, most) {
-    if (err) {
-      return cb(err);
-    }
-
-    Bot.leastFollowers(function (err, least) {
-      if (err) {
-        return cb(err);
-      }
-
-      Bot.newest(function (err, newest) {
-        cb(err, {
-          most: most,
-          least: least,
-          newest: newest
-        });
-      });
-    });
-  });
+  async.parallel({
+    most: Bot.mostFollowers.bind(Bot),
+    least: Bot.leastFollowers.bind(Bot),
+    newest: Bot.newest.bind(Bot),
+    tagCounts: Bot.tagCounts.bind(Bot)
+  }, cb);
 }
 
 app.get('/', trackReturnTo, function (req, res) {
