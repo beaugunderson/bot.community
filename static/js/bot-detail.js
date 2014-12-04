@@ -1,4 +1,4 @@
-/*global $:true isAuthenticated:true*/
+/*global $:true*/
 
 'use strict';
 
@@ -26,7 +26,7 @@ function buildForm(key, value) {
 }
 
 $(function () {
-  if (!isAuthenticated) {
+  if (!$('body').hasClass('logged-in')) {
     return;
   }
 

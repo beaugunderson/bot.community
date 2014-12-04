@@ -10,14 +10,9 @@
     <script src="/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="/vendor/select2/select2.min.js"></script>
 
-    <script>
-      var isAuthenticated = {{ authenticated }};
-    </script>
-
     <script src="/js/main.js"></script>
 
-    <link rel="stylesheet"
-      href="/vendor/select2/select2.css">
+    <link rel="stylesheet" href="/vendor/select2/select2.css">
     <link rel="stylesheet"
       href="/vendor/select2-bootstrap-css/select2-bootstrap.css">
     <link rel="stylesheet"
@@ -25,13 +20,12 @@
     <link rel="stylesheet"
       href="/vendor/bootstrap/dist/css/bootstrap-theme.css">
 
-    <link rel="stylesheet"
-      href="/css/main.css">
+    <link rel="stylesheet" href="/css/main.css">
 
     {% block head %}{% endblock %}
   </head>
 
-  <body>
+  <body class="{% if authenticated %}logged-in{% else %}logged-out{% endif %}">
     <nav class="navbar navbar-default navbar-static-top" role="navigation">
       <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
