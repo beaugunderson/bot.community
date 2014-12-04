@@ -57,12 +57,21 @@
                 with Twitter</a>
             {% else %}
               <span class="navbar-text">
-                <strong>{{ user.profile.username }}</strong>
+                <a href="/users/{{ user.profile.username }}/">
+                  <strong>{{ user.profile.username }}</strong></a>
               </span>
 
               <a class="btn btn-default navbar-btn" href="/logout">Log out</a>
             {% endif %}
           </div>
+
+          {% if user %}
+          <div class="navbar-right">
+            <a type="button" class="btn btn-success navbar-btn">
+              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+              Add a Bot</a>
+          </div>
+          {% endif %}
 
           {% if !home %}
             <form class="navbar-form navbar-left" role="search">
