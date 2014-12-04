@@ -51,7 +51,8 @@ botSchema.methods.createTag = function (user, key, value, cb) {
 
   var self = this;
 
-  TagRevision.fromTagAction('create', tag, user, this.twitter, function (err) {
+  TagRevision.fromTagAction('create', null, tag, user, this.twitter,
+      function (err) {
     if (err) {
       return cb(err);
     }
@@ -77,12 +78,17 @@ botSchema.methods.updateTag = function (user, id, key, value, cb) {
     return cb(new Error('tag with id ' + id + ' not found'));
   }
 
+  var oldTag = tag.toObject();
+
   tag.key = key;
   tag.value = value;
 
+  var newTag = tag.toObject();
+
   var self = this;
 
-  TagRevision.fromTagAction('update', tag, user, this.twitter, function (err) {
+  TagRevision.fromTagAction('update', oldTag, newTag, user, this.twitter,
+      function (err) {
     if (err) {
       return cb(err);
     }
@@ -92,7 +98,7 @@ botSchema.methods.updateTag = function (user, id, key, value, cb) {
         return cb(err);
       }
 
-      cb(null, tag);
+      cb(null, newTag);
     });
   });
 };
@@ -106,7 +112,8 @@ botSchema.methods.deleteTag = function (user, id, cb) {
 
   var self = this;
 
-  TagRevision.fromTagAction('delete', tag, user, this.twitter, function (err) {
+  TagRevision.fromTagAction('delete', tag, null, user, this.twitter,
+      function (err) {
     if (err) {
       return cb(err);
     }
