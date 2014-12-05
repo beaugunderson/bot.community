@@ -61,6 +61,8 @@ function userOr404(req, res, next) {
 
 var ensureTwitterLoggedIn = ensureLoggedIn({redirectTo: '/auth/twitter'});
 
+db.connect();
+
 var app = express();
 
 app.engine('html', swig.renderFile);
@@ -231,7 +233,7 @@ app.get('/logout', function (req, res) {
   res.redirect(returnToOrHome);
 });
 
-db(function () {
+db.onConnection(function () {
   var server = app.listen(PORT, function () {
     var host = server.address().address;
     var port = server.address().port;

@@ -15,7 +15,9 @@ program
   .command('load-bot-lists')
   .description('Load/update Twitter bots from bot lists')
   .action(function () {
-    db(function () {
+    db.connect();
+
+    db.onConnection(function () {
       twitterBotLists(function (err, bots) {
         if (err) {
           throw err;
@@ -49,7 +51,9 @@ program
 program
   .command('update-filtered-bots')
   .action(function () {
-    db(function () {
+    db.connect();
+
+    db.onConnection(function () {
       console.log('Updating filtered bots');
 
       Bot.find()
@@ -79,7 +83,9 @@ program
 program
   .command('reset-reports')
   .action(function () {
-    db(function () {
+    db.connect();
+
+    db.onConnection(function () {
       Bot.find({}, function (err, bots) {
         if (err) {
           throw err;
