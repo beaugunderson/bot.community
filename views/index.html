@@ -15,6 +15,19 @@
 
 <div class="row">
   <div class="col-md-4">
+    <h2>Most-used tags</h2>
+
+    <dl class="dl-horizontal">
+      {% for tag in aggregates.tagCounts %}
+      <dt><a href="/tags/{{ tag.key }}/">{{ tag.key }}</a></dt>
+      <dd>{{ tag.count|commas }}</dd>
+      {% endfor %}
+    </dl>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-4">
     <h2>Taking their first steps</h2>
 
     <dl class="dl-horizontal">
